@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] =='POST'){
 
     $password = password_hash($password, PASSWORD_DEFAULT);
 
-    require_once 'koneksidb.php';
+    require_once './koneksi/koneksidb.php';
 
     $sql = "INSERT INTO tb_user VALUES ('$id_user', '$nama_user', '$password')";
 
