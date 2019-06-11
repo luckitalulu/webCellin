@@ -1,5 +1,5 @@
 <?php
-
+echo "this is login";
 if ($_SERVER['REQUEST_METHOD']=='POST') {
 
     $id_user = $_POST['id_user'];
