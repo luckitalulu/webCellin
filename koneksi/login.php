@@ -5,7 +5,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
     $id_user = $_POST['id_user'];
     $password = $_POST['password'];
 
-    require_once 'koneksidb.php';
+    require_once './koneksi/koneksidb.php';
 
     $sql = "SELECT * FROM tb_user WHERE id_user='$id_user' ";
 
