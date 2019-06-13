@@ -1,5 +1,6 @@
 <?php
 echo "this is registration";
+$result = array();
 if ($_SERVER['REQUEST_METHOD'] =='POST'){
 
     $id_user = $_POST['id_user'];
