@@ -1,4 +1,5 @@
 <?php
+echo "this is registrasi.php";
 $response = array();
 include 'koneksi/db_connect.php';
 include 'koneksi/functions.php';
