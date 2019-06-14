@@ -1,7 +1,7 @@
 <?php
 $response = array();
-include 'db/db_connect.php';
-include 'functions.php';
+include 'koneksi/db_connect.php';
+include 'koneksi/functions.php';
 
 //Get the input request parameters
 $inputJSON = file_get_contents('php://input');
