@@ -1,48 +1,46 @@
 <?php
-echo "this is login";
-if ($_SERVER['REQUEST_METHOD']=='POST') {
+$response = array();
+include 'db/db_connect.php';
+include 'functions.php';
 
-    $id_user = $_POST['id_user'];
-    $password = $_POST['password'];
+//Get the input request parameters
+$inputJSON = file_get_contents('php://input');
+$input = json_decode($inputJSON, TRUE); //convert JSON into array
 
-    require_once './koneksi/koneksidb.php';
+//Check for Mandatory parameters
+if(isset($input['username']) && isset($input['password'])){
+	$username = $input['username'];
+	$password = $input['password'];
+	$query    = "SELECT full_name,password_hash, salt FROM member WHERE username = ?";
 
-    $sql = "SELECT * FROM tb_user WHERE id_user='$id_user' ";
-
-    $response = mysqli_query($conn, $sql);
-
-    $result = array();
-    $result['login'] = array();
-    
-    if ( mysqli_num_rows($response) === 1 ) {
-        
-        $row = mysqli_fetch_assoc($response);
-
-        if ( password_verify($password, $row['password']) ) {
-            
-            $index['nama_user'] = $row['nanama_user'];
-            $index['id_user'] = $row['id_user'];
-
-            array_push($result['login'], $index);
-
-            $result['success'] = "1";
-            $result['message'] = "success";
-            echo json_encode($result);
-
-            mysqli_close($conn);
-
-        } else {
-
-            $result['success'] = "0";
-            $result['message'] = "error";
-            echo json_encode($result);
-
-            mysqli_close($conn);
-
-        }
-
-    }
-
+	if($stmt = $con->prepare($query)){
+		$stmt->bind_param("s",$username);
+		$stmt->execute();
+		$stmt->bind_result($fullName,$passwordHashDB,$salt);
+		if($stmt->fetch()){
+			//Validate the password
+			if(password_verify(concatPasswordWithSalt($password,$salt),$passwordHashDB)){
+				$response["status"] = 0;
+				$response["message"] = "Login successful";
+				$response["full_name"] = $fullName;
+			}
+			else{
+				$response["status"] = 1;
+				$response["message"] = "Invalid username and password combination";
+			}
+		}
+		else{
+			$response["status"] = 1;
+			$response["message"] = "Invalid username and password combination";
+		}
+		
+		$stmt->close();
+	}
 }
-
+else{
+	$response["status"] = 2;
+	$response["message"] = "Missing mandatory parameters";
+}
+//Display the JSON response
+echo json_encode($response);
 ?>
