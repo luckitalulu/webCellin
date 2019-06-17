@@ -39,7 +39,7 @@ if(isset($input['username']) && isset($input['password']) && isset($input['full_
 	}
 }
 else{
-	$response["status"] = 2;
+	$response["status"] = "2";
 	$response["message"] = "Missing mandatory parameters";
 }
 echo json_encode($response);
