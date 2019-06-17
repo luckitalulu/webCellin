@@ -28,13 +28,13 @@ if(isset($input['username']) && isset($input['password']) && isset($input['full_
 		if($stmt = $con->prepare($insertQuery)){
 			$stmt->bind_param("ssss",$username,$fullName,$passwordHash,$salt);
 			$stmt->execute();
-			$response["status"] = 0;
+			$response["status"] = "0";
 			$response["message"] = "User created";
 			$stmt->close();
 		}
 	}
 	else{
-		$response["status"] = 1;
+		$response["status"] = "1";
 		$response["message"] = "User exists";
 	}
 }
