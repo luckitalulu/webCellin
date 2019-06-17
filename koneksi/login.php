@@ -1,5 +1,4 @@
 <?php
-echo "this is login.php";
 $response = array();
 include 'koneksi/db_connect.php';
 include 'koneksi/functions.php';
@@ -21,17 +20,17 @@ if(isset($input['username']) && isset($input['password'])){
 		if($stmt->fetch()){
 			//Validate the password
 			if(password_verify(concatPasswordWithSalt($password,$salt),$passwordHashDB)){
-				$response["status"] = 0;
+				$response["status"] = "0";
 				$response["message"] = "Login successful";
 				$response["full_name"] = $fullName;
 			}
 			else{
-				$response["status"] = 1;
+				$response["status"] = "1";
 				$response["message"] = "Invalid username and password combination";
 			}
 		}
 		else{
-			$response["status"] = 1;
+			$response["status"] = "1";
 			$response["message"] = "Invalid username and password combination";
 		}
 		
